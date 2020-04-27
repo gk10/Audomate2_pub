@@ -29,6 +29,18 @@ public interface AudomateVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpr(AudomateParser.ExprContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AudomateParser#lists}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLists(AudomateParser.ListsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AudomateParser#getindex}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGetindex(AudomateParser.GetindexContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AudomateParser#commands}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -88,6 +100,18 @@ public interface AudomateVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMachine(AudomateParser.MachineContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AudomateParser#createTask}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateTask(AudomateParser.CreateTaskContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AudomateParser#doTask}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDoTask(AudomateParser.DoTaskContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AudomateParser#addPart}.
 	 * @param ctx the parse tree

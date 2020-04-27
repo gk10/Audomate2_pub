@@ -1,3 +1,3 @@
-compile the program with mvn package
-mvn generate-sources
-run with mvn exec:java
+*compile the program with mvn package
+* Generate Lexer, parser, etc., with mvn generate-sources
+* run with mvn exec:java

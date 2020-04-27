@@ -15,9 +15,10 @@ import java.util.Vector;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		Map<String, AudomateParser.ExprContext> vars = new HashMap<String, AudomateParser.ExprContext>();
+		Map<String, AudomateParser.TestingContext> vars = new HashMap<String, AudomateParser.TestingContext>();
 		Map<String, String> tasks = new HashMap<String, String>();
 		ArrayList<String> parts = new ArrayList<String>();
+		String machine = "127.0.0.1";
 		// Map<String, LangParser.ProgContext> variables = new HashMap<String,
 		// LangParser.ProgContext>();
 
@@ -33,7 +34,7 @@ public class Main {
 				CommonTokenStream tokens = new CommonTokenStream(lexer);
 				AudomateParser parser = new AudomateParser(tokens);
 				AudomateParser.ProgContext tree = parser.prog();
-				String result = new ExpressionVisitor(vars, tasks, parts).visit(tree);
+				String result = new ExpressionVisitor3(vars, tasks, parts, machine).visit(tree);
 				System.out.println("=> " + result.toString());
 				//new TextToSpeech(result.toString());
 			} catch (Exception e) {

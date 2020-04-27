@@ -8,8 +8,9 @@ prog
 testing
 :
 | expr
-| expr ' ' expr
-| ' ' expr ' ' expr
+| expr ' ' testing
+| expr ' and ' testing
+| ' ' expr ' ' testing
 ;
 expr
 :
@@ -20,6 +21,19 @@ expr
 |   creation
 |	machine
 |	commands
+|	lists
+;
+
+lists
+:
+|'make a list ' name=WORD ' with ' block=testing
+|getindex
+;
+
+getindex
+:
+|'index of ' name=WORD ' from ' index=expr
+|'the ' index=expr ' ' WORD ' from ' name=WORD
 ;
 
 commands:
@@ -61,25 +75,41 @@ conditional:
 ;
 
 loops:
-|type='do' ' ' block=expr ' ' left=expr ' times'
-|type='while' ' ' left=expr ' do ' block=expr
+|type='do' ' ' block=testing ' ' left=testing ' times'
+|type='while' ' ' left=testing ' do ' block=testing
 ;
 
 inequality:
 |'the number ' left=expr ' is ' op='less' ' than ' right=expr
 |'the number ' left=expr ' is ' op='greater' ' than ' right=expr
+|'the number ' left=expr ' is ' op='equal' ' to ' right=expr
 |'the number ' left=expr ' is ' op='less' ' than or ' isEqual='equal' ' to ' right=expr
 |'the number ' left=expr ' is ' op='greater' ' than or ' isEqual='equal' ' to ' right=expr
 ;
 
 creation:
-|name=WORD ' is ' block=expr
+|'the ' type='value' ' of ' name=WORD ' is ' block=testing
+|'the ' type='function' ' ' name=WORD ' is ' block=testing
 |name=WORD
+|op='describe' ' ' name=WORD
 ;
 
 machine:
-addPart
+|addPart
+|doTask
+|createTask
 ;
+
+createTask:
+|task=WORD ' is ' action=WORD ' ' part=WORD 
+|task=WORD ' is ' action=WORD ' ' part=WORD ' ' var=expr
+|task=WORD ' is ' action=WORD ' ' part=WORD ' ' var=expr ' times'
+;
+
+doTask:
+|'run ' task=WORD
+;
+
 
 addPart:
 |'an ' part=WORD ' is part of the machine'
