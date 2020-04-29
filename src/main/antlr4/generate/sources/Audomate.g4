@@ -113,7 +113,7 @@ createTask:
 ;
 
 doTask:
-|'run ' task=WORD
+|'run ' task=testing
 ;
 
 

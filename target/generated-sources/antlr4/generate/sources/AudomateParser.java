@@ -1576,8 +1576,10 @@ public class AudomateParser extends Parser {
 	}
 
 	public static class DoTaskContext extends ParserRuleContext {
-		public Token task;
-		public TerminalNode WORD() { return getToken(AudomateParser.WORD, 0); }
+		public TestingContext task;
+		public TestingContext testing() {
+			return getRuleContext(TestingContext.class,0);
+		}
 		public DoTaskContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1616,7 +1618,7 @@ public class AudomateParser extends Parser {
 				setState(318);
 				match(T__38);
 				setState(319);
-				((DoTaskContext)_localctx).task = match(WORD);
+				((DoTaskContext)_localctx).task = testing();
 				}
 				break;
 			default:
@@ -1815,7 +1817,7 @@ public class AudomateParser extends Parser {
 		"\u0138\7\3\2\2\u0138\u0139\7/\2\2\u0139\u013a\7\3\2\2\u013a\u013b\5\6"+
 		"\4\2\u013b\u013c\7\32\2\2\u013c\u013e\3\2\2\2\u013d\u0127\3\2\2\2\u013d"+
 		"\u0128\3\2\2\2\u013d\u012d\3\2\2\2\u013d\u0134\3\2\2\2\u013e!\3\2\2\2"+
-		"\u013f\u0143\3\2\2\2\u0140\u0141\7)\2\2\u0141\u0143\7/\2\2\u0142\u013f"+
+		"\u013f\u0143\3\2\2\2\u0140\u0141\7)\2\2\u0141\u0143\5\4\3\2\u0142\u013f"+
 		"\3\2\2\2\u0142\u0140\3\2\2\2\u0143#\3\2\2\2\u0144\u014c\3\2\2\2\u0145"+
 		"\u0146\7*\2\2\u0146\u0147\7/\2\2\u0147\u014c\7+\2\2\u0148\u0149\7,\2\2"+
 		"\u0149\u014a\7/\2\2\u014a\u014c\7+\2\2\u014b\u0144\3\2\2\2\u014b\u0145"+

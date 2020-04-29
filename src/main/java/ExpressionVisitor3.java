@@ -82,7 +82,8 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 		String list = vars.get(name).getText();
 		String[] array = list.split(" ");
 		String result = array[Math.round(Float.valueOf(visitExpr(ctx.index)))];
-		return result;
+		
+		return visitTesting(new ToTree(result).toContext());
 	}
 
 	public String visitCreation(AudomateParser.CreationContext ctx) {
@@ -150,7 +151,6 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 		return "If you're seeing this, the math didn't happen";
 	}
 
-	
 	public String visitConditional(AudomateParser.ConditionalContext ctx) {
 		if (ctx.loops() != null) {
 			return visitLoops(ctx.loops());
@@ -160,9 +160,9 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 		}
 		if (Boolean.valueOf(visitTesting(ctx.left))) {
 			return visitTesting(ctx.block);
-		} else if (ctx.op!=null) {
+		} else if (ctx.op != null) {
 			return visitTesting(ctx.block2);
-		}else {
+		} else {
 			return "false";
 		}
 	}
@@ -219,19 +219,26 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 
 	public String visitDoTask(AudomateParser.DoTaskContext ctx) {
 		try {
-			Socket sock = new Socket(machineIP, 8080);
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			String list = ctx.task.getText();
+			String[] array = list.split(" ");
+			for (String str : array) {
+				Socket sock = new Socket(machineIP, 8080);
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				OutputStream output = sock.getOutputStream();
+				DataOutputStream dataOut = new DataOutputStream(output);
+
+				dataOut.writeUTF(str);
+
+				dataOut.flush();
+				dataOut.close();
+				sock.close();
 			}
-			OutputStream output = sock.getOutputStream();
-			DataOutputStream dataOut = new DataOutputStream(output);
-			dataOut.writeUTF(ctx.task.getText());
-			dataOut.flush();
-			dataOut.close();
-			sock.close();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -239,6 +246,7 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		return "Task completed";
 	}
 
