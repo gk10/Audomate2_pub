@@ -72,10 +72,10 @@ beep
 ;
 
 conditional:
-|'if ' left=expr ' is ' op='less' ' than ' right=expr ' do ' block=expr
-|'if ' left=expr ' is ' op='greater' ' than ' right=expr ' do ' block=expr
-|'if ' left=expr ' ' op='do' ' ' block=expr
-|'if ' left=expr ' ' op='do' ' ' block=expr ' else ' block2=expr 
+|'if ' left=testing ' then ' block=testing
+|'if ' left=testing ' then ' block=testing ' ' op='else' ' ' block2=testing 
+|'if ' left=testing ' then ' block=testing ' ' op='otherwise' ' ' block2=testing 
+|'if ' left=testing ' then ' block=testing ' ' op='if not' ' ' block2=testing 
 |loops
 |inequality
 ;

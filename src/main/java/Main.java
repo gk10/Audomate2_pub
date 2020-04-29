@@ -25,16 +25,16 @@ public class Main {
 		while (true) {
 
 			try {
-				String s = VoiceToText.newStreaming();
-				s = s.toLowerCase();
-
-				
-				if(s.substring(s.length()-1).equals(" ")) {
-					s = s.substring(0, s.length() -1);
-				}
-				System.out.println("?"+s);
-//				Scanner in = new Scanner(System.in);
-//				String s = in.nextLine();
+//				String s = VoiceToText.newStreaming();
+//				s = s.toLowerCase();
+//
+//				
+//				if(s.substring(s.length()-1).equals(" ")) {
+//					s = s.substring(0, s.length() -1);
+//				}
+//				System.out.println("?"+s);
+				Scanner in = new Scanner(System.in);
+				String s = in.nextLine();
 
 				CharStream input = CharStreams.fromString(s);
 				AudomateLexer lexer = new AudomateLexer(input);

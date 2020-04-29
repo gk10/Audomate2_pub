@@ -58,24 +58,24 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 			return visitMachine(ctx.machine());
 		} else if (ctx.commands() != null) {
 			return visitCommands(ctx.commands());
-		} else if (ctx.lists()!=null) {
+		} else if (ctx.lists() != null) {
 			return visitLists(ctx.lists());
 		}
 		return "nope";
 	}
 
 	public String visitLists(AudomateParser.ListsContext ctx) {
-		if(ctx.getindex()!=null) {
+		if (ctx.getindex() != null) {
 			return visitGetindex(ctx.getindex());
 		}
-		
+
 		System.out.println("test");
 		String name = new Soundex().encode(ctx.name.getText());
-		
+
 		vars.put(name, ctx.block);
 		return "Saved " + ctx.name.getText() + " as " + vars.get(name).getText();
 	}
-	
+
 	public String visitGetindex(AudomateParser.GetindexContext ctx) {
 		System.out.println("index");
 		String name = new Soundex().encode(ctx.name.getText());
@@ -84,7 +84,7 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 		String result = array[Math.round(Float.valueOf(visitExpr(ctx.index)))];
 		return result;
 	}
-	
+
 	public String visitCreation(AudomateParser.CreationContext ctx) {
 		String name = new Soundex().encode(ctx.name.getText());
 		if (ctx.op != null) {
@@ -97,7 +97,7 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 				System.out.println(temp);
 				vars.put(name, new ToTree(visitTesting(ctx.block)).toContext());
 				return "Saved " + ctx.name.getText() + " as " + vars.get(name).getText();
-			}else if(ctx.type.getText().equals("function")) {
+			} else if (ctx.type.getText().equals("function")) {
 				vars.put(name, new ToTree(ctx.block.getText()).toContext());
 				return "Saved " + ctx.name.getText() + " as " + vars.get(name).getText();
 			}
@@ -109,7 +109,7 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 	}
 
 	public String visitMachine(AudomateParser.MachineContext ctx) {
-		if(ctx.doTask()!=null) {
+		if (ctx.doTask() != null) {
 			return visitDoTask(ctx.doTask());
 		}
 		return visitAddPart(ctx.addPart());
@@ -140,7 +140,7 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 			 * can't translate to a number without being resolved first.
 			 **/
 			return "" + (Float.valueOf(visitExpr(ctx.left)) + Float.valueOf(visitExpr(ctx.right)));
-		} else if (ctx.type.getText().equals("multiply")||ctx.type.getText().equals("x")) {
+		} else if (ctx.type.getText().equals("multiply") || ctx.type.getText().equals("x")) {
 			return "" + (Float.valueOf(visitExpr(ctx.left)) * Float.valueOf(visitExpr(ctx.right)));
 		} else if (ctx.type.getText().equals("subtract")) {
 			return "" + (Float.valueOf(visitExpr(ctx.right)) - Float.valueOf(visitExpr(ctx.left)));
@@ -150,9 +150,7 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 		return "If you're seeing this, the math didn't happen";
 	}
 
-	/*
-	 * EVENTUALLY i'll disregard the if statements in favor of switches
-	 */
+	
 	public String visitConditional(AudomateParser.ConditionalContext ctx) {
 		if (ctx.loops() != null) {
 			return visitLoops(ctx.loops());
@@ -160,28 +158,13 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 		if (ctx.inequality() != null) {
 			return visitInequality(ctx.inequality());
 		}
-		if (ctx.op.getText().equals("less")) {
-			if (Float.valueOf(visitExpr(ctx.left)) < Float.valueOf(visitExpr(ctx.right))) {
-				return visitExpr(ctx.block);
-			}
-		} else if (ctx.op.getText().equals("greater")) {
-			if (Float.valueOf(visitExpr(ctx.left)) > Float.valueOf(visitExpr(ctx.right))) {
-				return visitExpr(ctx.block);
-			}
-			/**
-			 * The catch all if statement: Whatever gets checked here
-			 * (Boolean.valueOf(visitExpr(ctx.left))) HAS to return a "true" or "false"
-			 * response If it passes, then run the block
-			 */
-		} else if (ctx.op.getText().equals("do")) {
-			System.out.println("here");
-
-			if (Boolean.valueOf(visitExpr(ctx.left))) {
-				return visitExpr(ctx.block);
-			}
+		if (Boolean.valueOf(visitTesting(ctx.left))) {
+			return visitTesting(ctx.block);
+		} else if (ctx.op!=null) {
+			return visitTesting(ctx.block2);
+		}else {
+			return "false";
 		}
-		return "false";
-
 	}
 
 	public String visitLoops(AudomateParser.LoopsContext ctx) {
@@ -233,7 +216,7 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 		}
 		return "false";
 	}
-	
+
 	public String visitDoTask(AudomateParser.DoTaskContext ctx) {
 		try {
 			Socket sock = new Socket(machineIP, 8080);
