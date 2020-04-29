@@ -18,17 +18,24 @@ public class Main {
 		Map<String, AudomateParser.TestingContext> vars = new HashMap<String, AudomateParser.TestingContext>();
 		Map<String, String> tasks = new HashMap<String, String>();
 		ArrayList<String> parts = new ArrayList<String>();
-		String machine = "127.0.0.1";
+		String machine = "192.168.0.38";
 		// Map<String, LangParser.ProgContext> variables = new HashMap<String,
 		// LangParser.ProgContext>();
-
+		new VoiceToText();
 		while (true) {
 
 			try {
-				// String s = VoiceToText.newStreaming();
-				// s = s.toLowerCase();
-				Scanner in = new Scanner(System.in);
-				String s = in.nextLine();
+				String s = VoiceToText.newStreaming();
+				s = s.toLowerCase();
+
+				
+				if(s.substring(s.length()-1).equals(" ")) {
+					s = s.substring(0, s.length() -1);
+				}
+				System.out.println("?"+s);
+//				Scanner in = new Scanner(System.in);
+//				String s = in.nextLine();
+
 				CharStream input = CharStreams.fromString(s);
 				AudomateLexer lexer = new AudomateLexer(input);
 				CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -36,10 +43,10 @@ public class Main {
 				AudomateParser.ProgContext tree = parser.prog();
 				String result = new ExpressionVisitor3(vars, tasks, parts, machine).visit(tree);
 				System.out.println("=> " + result.toString());
-				//new TextToSpeech(result.toString());
+				new TextToSpeech(result.toString());
 			} catch (Exception e) {
 				System.out.println("An error occured");
-				//new TextToSpeech("An error occured");
+				new TextToSpeech("An error occured");
 			}
 			// in.close();
 

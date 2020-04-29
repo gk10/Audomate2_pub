@@ -1,4 +1,4 @@
-// Generated from generate\sources\Audomate.g4 by ANTLR 4.8
+// Generated from generate/sources/Audomate.g4 by ANTLR 4.8
 package generate.sources;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 

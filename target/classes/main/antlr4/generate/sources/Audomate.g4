@@ -47,7 +47,13 @@ printing:
 math
 :
 	| type='add' ' ' left=expr ' and ' right=expr
+	| type='add' ' ' left=expr ' + ' right=expr
+	| type='at' ' ' left=expr ' and ' right=expr
+	| type='at' ' ' left=expr ' + ' right=expr
 	| type='multiply' ' ' left=expr ' by ' right=expr
+	| type='multiply' ' ' left=expr ' and ' right=expr
+	| type='x' ' ' left=expr ' by ' right=expr
+	| type='x' ' ' left=expr ' and ' right=expr
 	| type='divide' ' ' left=expr ' by ' right=expr
 	| type='subtract' ' ' left=expr ' from ' right=expr
 ;

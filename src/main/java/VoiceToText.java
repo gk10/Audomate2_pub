@@ -1,6 +1,6 @@
 package main.java;
 
-// referencing https://github.com/googleapis/google-cloud-java/issues/3188
+//looking at cloud.google.com/speech-to-text/docs/streaming-recognize
 import com.google.api.gax.rpc.ClientStream;
 import com.google.api.gax.rpc.ResponseObserver;
 import com.google.api.gax.rpc.StreamController;
@@ -51,6 +51,7 @@ public class VoiceToText {
 					SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
 					System.out.println(alternative.getTranscript());
 					cTrans = alternative.getTranscript();
+					cTrans = cTrans.toLowerCase();
 					String tmp = cTrans.startsWith(" ") ? cTrans.substring(1) : cTrans;
 					//System.out.println("CTRANS: "+ cTrans);
 					if ((tmp.substring(0, tmp.indexOf(" ")).compareTo("okay") == 0) || tmp.compareTo("okay") == 0 || tmp.compareTo("Okay") == 0) {
@@ -104,9 +105,8 @@ public class VoiceToText {
 				request = StreamingRecognizeRequest.newBuilder().setAudioContent(ByteString.copyFrom(data)).build();
 				clientStream.send(request);
 
-				String temp = cTrans.substring(cTrans.lastIndexOf(" ") + 1);
-
-				if (temp.compareTo("stop") == 0 || temp.compareTo("Stop") == 0 || temp.compareTo("STOP") == 0) {
+				cTrans = cTrans.toLowerCase();
+				if (cTrans.contains("stop")) {
 					// System.out.println("Final Trans: " + fTrans.substring(0, fTrans.length()
 					// -6));
 					responseObserver.onComplete();

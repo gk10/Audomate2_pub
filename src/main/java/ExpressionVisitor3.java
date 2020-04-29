@@ -140,7 +140,7 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 			 * can't translate to a number without being resolved first.
 			 **/
 			return "" + (Float.valueOf(visitExpr(ctx.left)) + Float.valueOf(visitExpr(ctx.right)));
-		} else if (ctx.type.getText().equals("multiply")) {
+		} else if (ctx.type.getText().equals("multiply")||ctx.type.getText().equals("x")) {
 			return "" + (Float.valueOf(visitExpr(ctx.left)) * Float.valueOf(visitExpr(ctx.right)));
 		} else if (ctx.type.getText().equals("subtract")) {
 			return "" + (Float.valueOf(visitExpr(ctx.right)) - Float.valueOf(visitExpr(ctx.left)));
@@ -237,6 +237,12 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 	public String visitDoTask(AudomateParser.DoTaskContext ctx) {
 		try {
 			Socket sock = new Socket(machineIP, 8080);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			OutputStream output = sock.getOutputStream();
 			DataOutputStream dataOut = new DataOutputStream(output);
 			dataOut.writeUTF(ctx.task.getText());
@@ -250,7 +256,7 @@ public class ExpressionVisitor3 extends AudomateBaseVisitor<String> implements A
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "working";
+		return "Task completed";
 	}
 
 }
